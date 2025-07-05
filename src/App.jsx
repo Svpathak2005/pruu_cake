@@ -3,148 +3,8 @@ import { Star, MapPin, Phone, Mail, Instagram, Facebook, ShoppingBag, Heart, Plu
 import './App.css';
 
 // Product data
-const products = [
-  {
-    id: 1,
-    name: "Chocolate Truffle Cake",
-    image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop",
-    price: "₹899",
-    shortDescription: "Rich chocolate cake with truffle layers",
-    fullDescription: "Indulge in our signature chocolate truffle cake made with premium Belgian chocolate. Layered with silky chocolate ganache and topped with chocolate shavings. Perfect for chocolate lovers and special celebrations.",
-    rating: 4.8,
-    reviews: 245,
-    category: "Cake",
-    calories: 320,
-    fat: "18g",
-    cholesterol: "45mg"
-  },
-  {
-    id: 2,
-    name: "Vanilla Bean Delight",
-    image: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&h=300&fit=crop",
-    price: "₹749",
-    shortDescription: "Classic vanilla cake with fresh cream",
-    fullDescription: "Our classic vanilla bean cake is made with real vanilla extract and topped with fresh whipped cream. Light, fluffy, and perfect for any occasion. A timeless favorite that never goes out of style.",
-    rating: 4.6,
-    reviews: 189,
-    category: "Cake",
-    calories: 280,
-    fat: "15g",
-    cholesterol: "38mg"
-  },
-  {
-    id: 3,
-    name: "Red Velvet Supreme",
-    image: "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400&h=300&fit=crop",
-    price: "₹949",
-    shortDescription: "Velvety red cake with cream cheese frosting",
-    fullDescription: "Our red velvet cake features a stunning crimson color with a subtle cocoa flavor, topped with rich cream cheese frosting. Moist, tender, and visually striking - perfect for romantic occasions.",
-    rating: 4.9,
-    reviews: 312,
-    category: "Cake",
-    calories: 350,
-    fat: "20g",
-    cholesterol: "52mg"
-  },
-  {
-    id: 4,
-    name: "Strawberry Shortcake",
-    image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&h=300&fit=crop",
-    price: "₹849",
-    shortDescription: "Fresh strawberries with fluffy sponge",
-    fullDescription: "Light and airy sponge cake layered with fresh strawberries and whipped cream. Made with seasonal strawberries for the perfect balance of sweetness and tartness. A refreshing summer treat.",
-    rating: 4.7,
-    reviews: 156,
-    category: "Cake",
-    calories: 260,
-    fat: "12g",
-    cholesterol: "35mg"
-  },
-  {
-    id: 5,
-    name: "Black Forest Cake",
-    image: "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=400&h=300&fit=crop",
-    price: "₹999",
-    shortDescription: "Chocolate cake with cherries and cream",
-    fullDescription: "Traditional German-style black forest cake with layers of chocolate sponge, fresh cherries, and whipped cream. Finished with chocolate shavings and maraschino cherries for an authentic taste.",
-    rating: 4.8,
-    reviews: 203,
-    category: "Cake",
-    calories: 380,
-    fat: "22g",
-    cholesterol: "48mg"
-  },
-  {
-    id: 6,
-    name: "Glazed Donut Delight",
-    image: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400&h=300&fit=crop",
-    price: "₹299",
-    shortDescription: "Classic glazed donut with sweet coating",
-    fullDescription: "Our signature glazed donut features a perfectly soft and fluffy texture with a sweet glaze coating. Made fresh daily with premium ingredients for the perfect balance of sweetness and texture.",
-    rating: 4.5,
-    reviews: 421,
-    category: "Donut",
-    calories: 220,
-    fat: "12g",
-    cholesterol: "25mg"
-  },
-  {
-    id: 7,
-    name: "Chocolate Glazed Donut",
-    image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&h=300&fit=crop",
-    price: "₹329",
-    shortDescription: "Rich chocolate donut with chocolate glaze",
-    fullDescription: "Crafted with care and baked to perfection, this delectable treat features a moist and rich chocolate cake base that will satisfy your sweet cravings.",
-    rating: 4.7,
-    reviews: 298,
-    category: "Donut",
-    calories: 250,
-    fat: "14g",
-    cholesterol: "28mg"
-  },
-  {
-    id: 8,
-    name: "Rainbow Sprinkle Donut",
-    image: "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?w=400&h=300&fit=crop",
-    price: "₹349",
-    shortDescription: "Colorful donut with rainbow sprinkles",
-    fullDescription: "Brighten up your day with our rainbow sprinkle donut! A classic vanilla donut base topped with sweet glaze and colorful rainbow sprinkles that bring joy to every bite.",
-    rating: 4.6,
-    reviews: 187,
-    category: "Donut",
-    calories: 240,
-    fat: "13g",
-    cholesterol: "26mg"
-  },
-  {
-    id: 9,
-    name: "Classic Cupcake Collection",
-    image: "https://images.unsplash.com/photo-1587668178277-295251f900ce?w=400&h=300&fit=crop",
-    price: "₹199",
-    shortDescription: "Assorted cupcakes with colorful frosting",
-    fullDescription: "Nothing beats a classic cupcake. Our recipe has had this pastry flying off of our shelves for over 20 years and has been awarded America's most beloved cupcake.",
-    rating: 4.9,
-    reviews: 534,
-    category: "Cupcake",
-    calories: 180,
-    fat: "8g",
-    cholesterol: "22mg"
-  },
-  {
-    id: 10,
-    name: "Peach Paradise Tart",
-    image: "https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=400&h=300&fit=crop",
-    price: "₹649",
-    shortDescription: "Fresh peach tart with vanilla cream",
-    fullDescription: "Organic peaches and icing set this tart apart from all others. As one of our most requested items it's clearly a fan favorite and will not disappoint.",
-    rating: 4.7,
-    reviews: 156,
-    category: "Tart",
-    calories: 190,
-    fat: "9g",
-    cholesterol: "18mg"
-  }
-];
+// Product data (legacy, not used anymore)
+// const products = [ ... ];
 
 // Modern Navigation Component
 const Navigation = () => {
@@ -594,14 +454,15 @@ const ProductModal = ({ product, isOpen, onClose }) => {
 };
 
 // Modern Products Section
-const Products = () => {
+const Products = ({ products }) => {
+  if (!products || !Array.isArray(products)) return null;
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
-  
-  const categories = ['All', 'Cake', 'Donut', 'Cupcake', 'Tart'];
-  
-  const filteredProducts = selectedCategory === 'All' 
-    ? products 
+
+  const categories = ['All', ...Array.from(new Set(products.map(p => p.category)))];
+
+  const filteredProducts = selectedCategory === 'All'
+    ? products
     : products.filter(product => product.category === selectedCategory);
 
   return (
@@ -647,7 +508,7 @@ const Products = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product) => (
               <ProductCard
-                key={product.id}
+                key={product._id || product.id}
                 product={product}
                 onViewMore={setSelectedProduct}
               />
@@ -668,6 +529,51 @@ const Products = () => {
 
 // Modern Contact Section
 const Contact = () => {
+  const [form, setForm] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    eventType: 'Birthday',
+    message: ''
+  });
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSending(true);
+    setError('');
+    setSent(false);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+      if (!res.ok) {
+        let errorMsg = 'Failed to send message';
+        try {
+          const data = await res.text();
+          const json = data ? JSON.parse(data) : null;
+          if (json && json.error) errorMsg = json.error;
+        } catch (e) {}
+        throw new Error(errorMsg);
+      }
+      setSent(true);
+      setForm({ name: '', phone: '', email: '', eventType: 'Birthday', message: '' });
+    } catch (err) {
+      setError(err.message || 'Could not send message. Please try again.');
+    } finally {
+      setSending(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-24 bg-gradient-to-br from-rose-50 via-white to-pink-50">
       <div className="w-full px-4">
@@ -755,38 +661,53 @@ const Contact = () => {
             {/* Contact Form */}
             <div className="bg-black rounded-3xl p-8 shadow-lg border border-gray-100">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Message</h3>
-              <div className="space-y-6">
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
                     <input
                       type="text"
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
                       placeholder="Your name"
+                      required
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
                     <input
                       type="tel"
+                      name="phone"
+                      value={form.phone}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
                       placeholder="Your phone"
+                      required
                     />
                   </div>
                 </div>
-                
                 <div>
                   <label className="block text-sm font-medium text-black-700 mb-2">Email</label>
                   <input
                     type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
                     placeholder="your@email.com"
+                    required
                   />
                 </div>
-                
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Event Type</label>
-                  <select className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300">
+                  <select
+                    name="eventType"
+                    value={form.eventType}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
+                  >
                     <option>Birthday</option>
                     <option>Wedding</option>
                     <option>Anniversary</option>
@@ -794,23 +715,28 @@ const Contact = () => {
                     <option>Custom Order</option>
                   </select>
                 </div>
-                
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
                   <textarea
                     rows={4}
+                    name="message"
+                    value={form.message}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
                     placeholder="Tell us about your requirements..."
+                    required
                   ></textarea>
                 </div>
-                
+                {error && <div className="text-red-500 text-sm">{error}</div>}
+                {sent && <div className="text-green-600 text-sm">Message sent! We will contact you soon.</div>}
                 <button
-                  className="w-full bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                  onClick={() => alert('Message sent! We will contact you soon.')}
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-60"
+                  disabled={sending}
                 >
-                  Send Message
+                  {sending ? 'Sending...' : 'Send Message'}
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -820,7 +746,7 @@ const Contact = () => {
 };
 
 // Modern Footer
-const Footer = () => {
+const Footer = ({ onAdminClick }) => {
   return (
     <footer className="bg-gray-900 text-white py-16">
       <div className="w-full px-4">
@@ -841,7 +767,7 @@ const Footer = () => {
                 Crafting sweet memories with premium ingredients and boundless creativity. 
                 Your celebration deserves nothing less than perfection.
               </p>
-              <div className="flex gap-4">
+              <div className="flex gap-4 mb-4">
                 <a href="https://www.instagram.com/_pruu_cakes_/" className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-rose-600 transition-colors">
                   <Instagram className="w-5 h-5" />
                 </a>
@@ -849,6 +775,12 @@ const Footer = () => {
                   <Facebook className="w-5 h-5" />
                 </a>
               </div>
+              <button
+                className="mt-2 bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded font-semibold transition"
+                onClick={onAdminClick}
+              >
+                Admin Panel
+              </button>
             </div>
 
             {/* Quick Links */}
@@ -893,15 +825,57 @@ const Footer = () => {
   );
 };
 
+import AdminPanel from './AdminPanel';
+
 // Main App Component
 const App = () => {
+  const [showAdmin, setShowAdmin] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch cakes from backend
+  const fetchCakes = () => {
+    setLoading(true);
+    fetch('http://localhost:5000/api/cakes')
+      .then(res => res.json())
+      .then(data => {
+        setProducts(Array.isArray(data) ? data.sort((a, b) => (b._id || '').localeCompare(a._id || '')) : []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    if (!showAdmin) {
+      fetchCakes();
+    }
+  }, [showAdmin]);
+
   return (
     <div className="min-h-screen bg-white">
-      <HeroSection />
-      <About />
-      <Products />
-      <Contact />
-      <Footer />
+      <div className="fixed top-4 right-4 z-50">
+        <button
+          className="bg-gray-900 text-white px-4 py-2 rounded-xl font-medium shadow hover:bg-rose-600 transition"
+          onClick={() => setShowAdmin((v) => !v)}
+        >
+          {showAdmin ? 'Back to Site' : 'Admin Login'}
+        </button>
+      </div>
+      {showAdmin ? (
+        <AdminPanel />
+      ) : (
+        <>
+          <HeroSection />
+          <About />
+          {loading ? (
+            <div className="w-full flex justify-center py-20 text-xl text-gray-500">Loading cakes...</div>
+          ) : (
+            <Products products={Array.isArray(products) ? products : []} />
+          )}
+          <Contact />
+          <Footer onAdminClick={() => setShowAdmin(true)} />
+        </>
+      )}
     </div>
   );
 };
