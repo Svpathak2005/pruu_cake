@@ -41,10 +41,35 @@ export default function AdminPanel() {
     }
   }
 
+
   // Cake form handler
   function handleChange(e) {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    const { name, value, files } = e.target;
+    if (name === 'image' && files && files[0]) {
+      // Upload image to backend
+      uploadImage(files[0]);
+    } else {
+      setForm(prev => ({ ...prev, [name]: value }));
+    }
+  }
+
+  // Upload image to backend (Cloudinary)
+  async function uploadImage(file) {
+    setSuccess('Uploading image...');
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error || 'Image upload failed');
+      setForm(prev => ({ ...prev, image: data.url }));
+      setSuccess('Image uploaded!');
+    } catch (err) {
+      setSuccess('Error uploading image: ' + err.message);
+    }
   }
 
 
@@ -117,7 +142,19 @@ export default function AdminPanel() {
           <h2 className="text-2xl font-bold mb-6 text-center text-white">Add New Cake</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <input name="name" value={form.name} onChange={handleChange} placeholder="Cake Name" className="w-full px-4 py-2 border border-gray-700 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-600" required />
-            <input name="image" value={form.image} onChange={handleChange} placeholder="Image URL" className="w-full px-4 py-2 border border-gray-700 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-600" required />
+            <div className="flex gap-2 items-center">
+              <input
+                name="image"
+                type="file"
+                accept="image/*"
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-rose-600"
+                required={!form.image}
+              />
+              {form.image && (
+                <img src={form.image} alt="Cake Preview" className="w-16 h-16 object-cover rounded border border-gray-700" />
+              )}
+            </div>
             <input name="price" value={form.price} onChange={handleChange} placeholder="Price" className="w-full px-4 py-2 border border-gray-700 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-600" required />
             <input name="shortDescription" value={form.shortDescription} onChange={handleChange} placeholder="Short Description" className="w-full px-4 py-2 border border-gray-700 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-600" required />
             <textarea name="fullDescription" value={form.fullDescription} onChange={handleChange} placeholder="Full Description" className="w-full px-4 py-2 border border-gray-700 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-600" required />
