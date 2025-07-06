@@ -852,7 +852,7 @@ const App = () => {
   }, [showAdmin]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ backgroundColor: '#fdd0cb' }}>
       <div className="fixed top-4 right-4 z-50">
         <button
           className="bg-gray-900 text-white px-4 py-2 rounded-xl font-medium shadow hover:bg-rose-600 transition"
