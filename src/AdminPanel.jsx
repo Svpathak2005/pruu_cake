@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+// API Base URL - Change this to your backend URL
+const API_BASE_URL = 'http://localhost:5000';
+
 // Simple hardcoded admin credentials for demo
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = 'password';
@@ -28,6 +31,47 @@ export default function AdminPanel() {
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [messagesError, setMessagesError] = useState('');
 
+  // Cakes state
+  const [cakes, setCakes] = useState([]);
+  const [loadingCakes, setLoadingCakes] = useState(false);
+  const [cakesError, setCakesError] = useState('');
+  const [editCakeId, setEditCakeId] = useState(null);
+
+  // Fetch cakes from backend
+  useEffect(() => {
+    if (loggedIn) {
+      setLoadingCakes(true);
+      setCakesError('');
+      fetch(`${API_BASE_URL}/api/cakes`)
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch cakes');
+          return res.json();
+        })
+        .then(data => {
+          setCakes(Array.isArray(data) ? data.sort((a, b) => (b._id || '').localeCompare(a._id || '')) : []);
+          setLoadingCakes(false);
+        })
+        .catch(err => {
+          setCakesError(err.message || 'Could not load cakes');
+          setLoadingCakes(false);
+        });
+    }
+  }, [loggedIn, success]);
+
+  // Start editing a cake
+  function handleEditCake(cake) {
+    setEditCakeId(cake._id);
+    setForm({ ...cake });
+    setSuccess('');
+  }
+
+  // Cancel editing
+  function handleCancelEdit() {
+    setEditCakeId(null);
+    setForm(initialCake);
+    setSuccess('');
+  }
+
   // Login handler
   function handleLogin(e) {
     e.preventDefault();
@@ -40,7 +84,6 @@ export default function AdminPanel() {
       setLoginError('Invalid credentials');
     }
   }
-
 
   // Cake form handler
   function handleChange(e) {
@@ -59,7 +102,7 @@ export default function AdminPanel() {
     const formData = new FormData();
     formData.append('image', file);
     try {
-      const res = await fetch('/api/upload', {
+      const res = await fetch(`${API_BASE_URL}/api/upload`, {
         method: 'POST',
         body: formData
       });
@@ -72,27 +115,44 @@ export default function AdminPanel() {
     }
   }
 
-
-  // Cake submit handler (now posts to backend API)
+  // Cake submit handler (add or update)
   async function handleSubmit(e) {
     e.preventDefault();
     setSuccess('');
     try {
-      const res = await fetch('http://localhost:5000/api/cakes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          rating: parseFloat(form.rating),
-          reviews: parseInt(form.reviews),
-          calories: parseInt(form.calories)
-        })
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Failed to add cake');
+      let res, data;
+      if (editCakeId) {
+        // Update existing cake
+        res = await fetch(`${API_BASE_URL}/api/cakes/${editCakeId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...form,
+            rating: parseFloat(form.rating),
+            reviews: parseInt(form.reviews),
+            calories: parseInt(form.calories)
+          })
+        });
+        data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to update cake');
+        setSuccess('Cake updated successfully!');
+        setEditCakeId(null);
+      } else {
+        // Add new cake
+        res = await fetch(`${API_BASE_URL}/api/cakes`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...form,
+            rating: parseFloat(form.rating),
+            reviews: parseInt(form.reviews),
+            calories: parseInt(form.calories)
+          })
+        });
+        data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to add cake');
+        setSuccess('Cake added successfully!');
       }
-      setSuccess('Cake added successfully!');
       setForm(initialCake);
     } catch (err) {
       setSuccess('Error: ' + err.message);
@@ -104,7 +164,7 @@ export default function AdminPanel() {
     if (loggedIn) {
       setLoadingMessages(true);
       setMessagesError('');
-      fetch('/api/contact')
+      fetch(`${API_BASE_URL}/api/contact`)
         .then(res => {
           if (!res.ok) throw new Error('Failed to fetch messages');
           return res.json();
@@ -119,6 +179,48 @@ export default function AdminPanel() {
         });
     }
   }, [loggedIn]);
+
+  // Delete a cake - FIXED VERSION
+  async function handleDeleteCake(id) {
+    if (!window.confirm('Are you sure you want to delete this cake?')) return;
+    setSuccess('Deleting cake...');
+    try {
+      console.log('Attempting to delete cake with ID:', id);
+      const res = await fetch(`${API_BASE_URL}/api/cakes/${id}`, { 
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      let data;
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        console.error('Error parsing JSON response:', jsonErr);
+        data = { error: 'Invalid server response' };
+      }
+      
+      if (!res.ok) {
+        console.error('Delete failed with status:', res.status);
+        if (res.status === 404) {
+          setSuccess('Cake not found. It may have already been deleted. Removing from list.');
+          setCakes(prev => prev.filter(c => c._id !== id));
+          if (editCakeId === id) handleCancelEdit();
+        } else {
+          setSuccess('Error: ' + (data.error || 'Failed to delete cake'));
+        }
+        return;
+      }
+      
+      setSuccess('Cake deleted successfully!');
+      setCakes(prev => prev.filter(c => c._id !== id));
+      if (editCakeId === id) handleCancelEdit();
+    } catch (err) {
+      console.error('Delete exception:', err);
+      setSuccess('Error: ' + err.message);
+    }
+  }
 
   if (!loggedIn) {
     return (
@@ -136,10 +238,10 @@ export default function AdminPanel() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-black py-10">
-      <div className="flex flex-col lg:flex-row gap-8 w-full max-w-6xl">
-        {/* Add Cake Section */}
+      <div className="flex flex-col lg:flex-row gap-8 w-full max-w-7xl px-2 md:px-8 xl:px-0">
+        {/* Add/Edit Cake Section */}
         <div className="bg-gray-900 p-8 rounded-xl shadow-lg w-full max-w-lg border border-gray-700 flex-1">
-          <h2 className="text-2xl font-bold mb-6 text-center text-white">Add New Cake</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center text-white">{editCakeId ? 'Edit Cake' : 'Add New Cake'}</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <input name="name" value={form.name} onChange={handleChange} placeholder="Cake Name" className="w-full px-4 py-2 border border-gray-700 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-600" required />
             <div className="flex gap-2 items-center">
@@ -164,10 +266,69 @@ export default function AdminPanel() {
             <input name="calories" value={form.calories} onChange={handleChange} placeholder="Calories" className="w-full px-4 py-2 border border-gray-700 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-600" required />
             <input name="fat" value={form.fat} onChange={handleChange} placeholder="Fat (e.g. 18g)" className="w-full px-4 py-2 border border-gray-700 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-600" required />
             <input name="cholesterol" value={form.cholesterol} onChange={handleChange} placeholder="Cholesterol (e.g. 45mg)" className="w-full px-4 py-2 border border-gray-700 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-600" required />
-            <button type="submit" className="w-full bg-rose-600 text-white py-2 rounded font-semibold hover:bg-rose-700 transition">Add Cake</button>
+            <div className="flex gap-2">
+              <button type="submit" className="w-full bg-rose-600 text-white py-2 rounded font-semibold hover:bg-rose-700 transition">
+                {editCakeId ? 'Update Cake' : 'Add Cake'}
+              </button>
+              {editCakeId && (
+                <button type="button" onClick={handleCancelEdit} className="w-full bg-gray-700 text-white py-2 rounded font-semibold hover:bg-gray-600 transition">Cancel</button>
+              )}
+            </div>
           </form>
-          {success && <div className="text-green-400 mt-4 text-center">{success}</div>}
+          {success && <div className={`mt-4 text-center ${success.includes('Error') ? 'text-red-400' : 'text-green-400'}`}>{success}</div>}
         </div>
+
+        {/* Cakes List Section */}
+        <div className="bg-gray-900 p-8 rounded-xl shadow-lg w-full max-w-2xl border border-gray-700 flex-1">
+          <h2 className="text-2xl font-bold mb-6 text-center text-white">All Cakes</h2>
+          {loadingCakes ? (
+            <div className="text-gray-400 text-center py-8">Loading cakes...</div>
+          ) : cakesError ? (
+            <div className="text-red-400 text-center py-8">{cakesError}</div>
+          ) : cakes.length === 0 ? (
+            <div className="text-gray-400 text-center py-8">No cakes found.</div>
+          ) : (
+            <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+              {cakes.map(cake => (
+                <div key={cake._id} className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 rounded-3xl p-6 border border-gray-700 shadow-xl flex flex-col gap-3 hover:border-rose-500 hover:shadow-2xl transition-all duration-300">
+                  <div className="flex flex-wrap gap-4 items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      {cake.image && <img src={cake.image} alt="Cake" className="w-16 h-16 object-cover rounded-2xl border-2 border-rose-400 shadow-md" />}
+                      <div>
+                        <div className="font-bold text-xl text-rose-400">{cake.name}</div>
+                        <div className="text-xs text-gray-400 font-medium bg-gray-800 rounded-full px-3 py-1 inline-block mt-1">{cake.category}</div>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button onClick={() => handleEditCake(cake)} className="bg-gradient-to-r from-rose-600 to-pink-600 text-white px-4 py-2 rounded-xl hover:from-pink-700 hover:to-rose-700 transition text-sm font-semibold shadow-md">Edit</button>
+                      <button onClick={() => handleDeleteCake(cake._id)} className="bg-gradient-to-r from-red-600 to-rose-700 text-white px-4 py-2 rounded-xl hover:from-rose-800 hover:to-red-800 transition text-sm font-semibold shadow-md">Delete</button>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mt-2">
+                    <div className="bg-gray-900 rounded-xl p-2">
+                      <div className="text-lg font-bold text-rose-400">{cake.price}</div>
+                      <div className="text-xs text-gray-400">Price</div>
+                    </div>
+                    <div className="bg-gray-900 rounded-xl p-2">
+                      <div className="text-lg font-bold text-yellow-400">{cake.rating}★</div>
+                      <div className="text-xs text-gray-400">{cake.reviews} reviews</div>
+                    </div>
+                    <div className="bg-gray-900 rounded-xl p-2">
+                      <div className="text-lg font-bold text-blue-400">{cake.calories}</div>
+                      <div className="text-xs text-gray-400">Calories</div>
+                    </div>
+                    <div className="bg-gray-900 rounded-xl p-2">
+                      <div className="text-lg font-bold text-green-400">{cake.fat}</div>
+                      <div className="text-xs text-gray-400">Fat</div>
+                    </div>
+                  </div>
+                  <div className="text-gray-200 text-base mt-3 italic border-l-4 border-rose-400 pl-4 bg-gray-900/60 rounded-xl py-2">{cake.shortDescription}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* Messages Section */}
         <div className="bg-gray-900 p-8 rounded-xl shadow-lg w-full max-w-2xl border border-gray-700 flex-1">
           <h2 className="text-2xl font-bold mb-6 text-center text-white">Contact Messages</h2>
