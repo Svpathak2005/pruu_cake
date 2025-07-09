@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import logo from './assets/logo_pruu_cake.png';
 import { Star, MapPin, Phone, Mail, Instagram, Facebook, ShoppingBag, Heart, Plus, Menu, X, ArrowRight, Award, Clock, Shield } from 'lucide-react';
 import './App.css';
 
@@ -85,79 +86,74 @@ const Navigation = () => {
   );
 };
 
-// Modern Hero Section
+// Modern Hero Section with glassmorphism and animated background
 const HeroSection = () => {
   return (
-    <section id="home" className="relative min-h-screen bg-gradient-to-br from-gray-50 via-white to-rose-50 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-rose-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-br from-orange-200/20 to-yellow-200/20 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-2xl"></div>
+    <section id="home" className="relative min-h-screen overflow-hidden flex items-center justify-center">
+      {/* Animated Gradient Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-0 left-0 w-full h-full animate-gradient bg-gradient-to-br from-pink-200 via-rose-100 to-yellow-100 opacity-80 blur-2xl"></div>
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-pink-300/30 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-200/40 rounded-full blur-2xl animate-float"></div>
+        <div className="absolute top-1/2 left-10 w-40 h-40 bg-rose-200/40 rounded-full blur-2xl animate-float2"></div>
       </div>
-      
+
       <Navigation />
-      
-      <div className="relative w-full px-4 py-32 flex items-center min-h-screen">
-        <div className="grid lg:grid-cols-2 gap-12 items-center w-full">
+
+      <div className="relative w-full px-4 py-32 flex items-center min-h-screen z-10">
+        <div className="flex flex-col lg:flex-row items-stretch w-full max-w-7xl mx-auto gap-8 lg:gap-0">
           {/* Content */}
-          <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 bg-rose-50 text-rose-700 px-4 py-2 rounded-full text-sm font-medium border border-rose-200">
+          <div className="flex flex-col justify-center space-y-10 bg-white/60 backdrop-blur-2xl rounded-3xl shadow-2xl p-10 border border-white/40 h-full lg:w-1/2 lg:mr-12">
+            <div className="inline-flex items-center gap-2 bg-rose-50 text-rose-700 px-4 py-2 rounded-full text-sm font-medium border border-rose-200 shadow">
               <Award className="w-4 h-4" />
               Certified Premium Bakery
             </div>
-            
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 leading-tight drop-shadow-lg">
               Crafting Sweet
-              <span className="bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent block">
+              <span className="bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent block animate-gradient-x">
                 Memories
               </span>
             </h1>
-            
-            <p className="text-xl text-gray-600 leading-relaxed max-w-2xl">
-              From our kitchen to your celebrations - experience the artistry of handcrafted cakes, 
-              pastries, and desserts made with premium ingredients and boundless creativity.
+            <p className="text-xl text-gray-700 leading-relaxed max-w-2xl font-medium">
+              From our kitchen to your celebrations — experience the artistry of handcrafted cakes, pastries, and desserts made with premium ingredients and boundless creativity.
             </p>
-            
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+              <button className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl flex items-center justify-center gap-2">
                 Explore Menu
                 <ArrowRight className="w-5 h-5" />
               </button>
-              <button className="border-2 border-gray-300 hover:border-rose-500 text-gray-700 hover:text-rose-600 px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 flex items-center justify-center gap-2">
+              <button className="border-2 border-gray-200 hover:border-rose-500 text-gray-800 hover:text-rose-600 px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 shadow">
                 <Phone className="w-5 h-5" />
                 Call Now
               </button>
             </div>
-
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 pt-8 border-t border-gray-200">
               <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900">500+</div>
+                <div className="text-3xl font-extrabold text-gray-900">500+</div>
                 <div className="text-sm text-gray-600">Customers</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900">4.8</div>
+                <div className="text-3xl font-extrabold text-gray-900">4.8</div>
                 <div className="text-sm text-gray-600">Average Rating</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900">5+</div>
+                <div className="text-3xl font-extrabold text-gray-900">5+</div>
                 <div className="text-sm text-gray-600">Years Experience</div>
               </div>
             </div>
           </div>
-
           {/* Hero Image */}
-          <div className="relative">
-            <div className="relative z-10">
+          <div className="relative flex items-center justify-end h-full min-h-[400px] lg:w-1/2">
+            <div className="relative z-10 flex flex-col items-center justify-center h-full w-full max-w-md lg:ml-auto">
               <img
                 src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=600&fit=crop"
                 alt="Premium Cake"
-                className="w-full h-96 lg:h-[500px] object-cover rounded-3xl shadow-2xl"
+                className="w-full max-w-md h-96 lg:h-[500px] object-cover rounded-3xl shadow-2xl border-4 border-white/60 mx-auto"
+                style={{marginTop: 0, marginBottom: 0}}
               />
-              
               {/* Floating Cards */}
-              <div className="absolute -top-6 -left-6 bg-white rounded-2xl p-4 shadow-xl border border-gray-100">
+              <div className="absolute -top-8 -left-8 bg-white/80 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-gray-100">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
                     <Shield className="w-6 h-6 text-green-600" />
@@ -168,8 +164,7 @@ const HeroSection = () => {
                   </div>
                 </div>
               </div>
-              
-              <div className="absolute -bottom-6 -right-6 bg-white rounded-2xl p-4 shadow-xl border border-gray-100">
+              <div className="absolute -bottom-8 -right-8 bg-white/80 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-gray-100">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
                     <Clock className="w-6 h-6 text-blue-600" />
@@ -181,21 +176,26 @@ const HeroSection = () => {
                 </div>
               </div>
             </div>
-            
+            {/* Animated floating shape */}
+            <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-40 h-40 bg-pink-200/40 rounded-full blur-2xl animate-float3"></div>
             {/* Background decoration */}
-            <div className="absolute inset-0 bg-gradient-to-br from-rose-100/50 to-pink-100/50 rounded-3xl transform rotate-6 scale-105 -z-10"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-rose-100/60 to-pink-100/60 rounded-3xl transform rotate-6 scale-105 -z-10"></div>
           </div>
         </div>
       </div>
+      
     </section>
   );
 };
 
-// Modern About Section
+// Modern About Section with glassmorphism
 const About = () => {
   return (
-    <section id="about" className="py-24 bg-gradient-to-b from-white to-gray-50">
-      <div className="w-full px-4">
+    <section id="about" className="py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+      {/* Animated floating shapes */}
+      <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-pink-200/30 rounded-full blur-3xl animate-float2 z-0"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-100/40 rounded-full blur-2xl animate-float z-0"></div>
+      <div className="w-full px-4 relative z-10">
         <div className="w-full mx-auto">
           {/* Header */}
           <div className="text-center mb-20">
@@ -221,42 +221,35 @@ const About = () => {
             <div className="relative">
               <div className="relative z-10">
                 <img
-                  src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&h=600&fit=crop"
+                  src={logo}
                   alt="Baker at work"
-                  className="w-full h-96 object-cover rounded-3xl shadow-2xl"
+                  className="w-full h-96 object-cover rounded-3xl shadow-2xl border-4 border-white/60"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-rose-100/50 to-pink-100/50 rounded-3xl transform -rotate-6 scale-105 -z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-rose-100/60 to-pink-100/60 rounded-3xl transform -rotate-6 scale-105 -z-10"></div>
             </div>
-
             {/* Content */}
-            <div className="space-y-8">
-              <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-pink-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-                    PP
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-gray-900">Prutha Pandya</h3>
-                    <p className="text-rose-600 font-medium">Certified Master Baker</p>
-                  </div>
+            <div className="space-y-8 bg-white/70 backdrop-blur-2xl rounded-3xl p-10 shadow-2xl border border-white/40">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-pink-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                  PP
                 </div>
-                
-                <p className="text-gray-700 text-lg leading-relaxed mb-6">
-                  With over 5 years of passionate dedication to the art of baking, I've transformed 
-                  countless celebrations into unforgettable memories. Every cake that leaves my kitchen 
-                  carries a piece of my heart and represents my commitment to excellence.
-                </p>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 bg-gray-50 rounded-xl">
-                    <div className="text-2xl font-bold text-gray-900">500+</div>
-                    <div className="text-sm text-gray-600">Cakes Created</div>
-                  </div>
-                  <div className="text-center p-4 bg-gray-50 rounded-xl">
-                    <div className="text-2xl font-bold text-gray-900">4.9★</div>
-                    <div className="text-sm text-gray-600">Customer Rating</div>
-                  </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900">Prutha Pandya</h3>
+                  <p className="text-rose-600 font-medium">Certified Master Baker</p>
+                </div>
+              </div>
+              <p className="text-gray-700 text-lg leading-relaxed mb-6 font-medium">
+                With over 5 years of passionate dedication to the art of baking, I've transformed countless celebrations into unforgettable memories. Every cake that leaves my kitchen carries a piece of my heart and represents my commitment to excellence.
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-center p-4 bg-gray-50/80 rounded-xl shadow">
+                  <div className="text-2xl font-bold text-gray-900">500+</div>
+                  <div className="text-sm text-gray-600">Cakes Created</div>
+                </div>
+                <div className="text-center p-4 bg-gray-50/80 rounded-xl shadow">
+                  <div className="text-2xl font-bold text-gray-900">4.9★</div>
+                  <div className="text-sm text-gray-600">Customer Rating</div>
                 </div>
               </div>
             </div>
@@ -324,7 +317,7 @@ const ProductCard = ({ product, onViewMore }) => {
   };
 
   return (
-    <div className="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
+    <div className="group bg-white/70 backdrop-blur-2xl rounded-3xl shadow-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-white/40">
       <div className="relative overflow-hidden h-56">
         <img
           src={product.image}
@@ -341,7 +334,6 @@ const ProductCard = ({ product, onViewMore }) => {
           <Heart className="w-5 h-5" />
         </button>
       </div>
-      
       <div className="p-6">
         <div className="mb-3">
           <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-rose-600 transition-colors">
@@ -349,20 +341,18 @@ const ProductCard = ({ product, onViewMore }) => {
           </h3>
           <p className="text-gray-600 text-sm leading-relaxed">{product.shortDescription}</p>
         </div>
-        
         <div className="flex items-center gap-2 mb-4">
           <div className="flex">{renderStars(product.rating)}</div>
           <span className="text-sm font-medium text-gray-700">{product.rating}</span>
           <span className="text-sm text-gray-500">({product.reviews})</span>
         </div>
-        
         <div className="flex items-center justify-between">
           <span className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
             {product.price}
           </span>
           <button
             onClick={() => onViewMore(product)}
-            className="bg-gradient-to-r from-gray-800 to-gray-600 hover:from-rose-600 hover:to-pink-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-2"
+            className="bg-gradient-to-r from-gray-800 to-gray-600 hover:from-rose-600 hover:to-pink-700 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl flex items-center gap-2"
           >
             View More
           </button>
@@ -852,7 +842,7 @@ const App = () => {
   }, [showAdmin]);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#fdd0cb' }}>
+    <div className="min-h-screen w-full flex flex-col items-center bg-[#fdd0cb]">
       <div className="fixed top-4 right-4 z-50">
         <button
           className="bg-gray-900 text-white px-4 py-2 rounded-xl font-medium shadow hover:bg-rose-600 transition"
@@ -861,21 +851,23 @@ const App = () => {
           {showAdmin ? 'Back to Site' : 'Admin Login'}
         </button>
       </div>
-      {showAdmin ? (
-        <AdminPanel />
-      ) : (
-        <>
-          <HeroSection />
-          <About />
-          {loading ? (
-            <div className="w-full flex justify-center py-20 text-xl text-gray-500">Loading cakes...</div>
-          ) : (
-            <Products products={Array.isArray(products) ? products : []} />
-          )}
-          <Contact />
-          <Footer onAdminClick={() => setShowAdmin(true)} />
-        </>
-      )}
+      <div className="w-full max-w-[1920px] flex-1">
+        {showAdmin ? (
+          <AdminPanel />
+        ) : (
+          <>
+            <HeroSection />
+            <About />
+            {loading ? (
+              <div className="w-full flex justify-center py-20 text-xl text-gray-500">Loading cakes...</div>
+            ) : (
+              <Products products={Array.isArray(products) ? products : []} />
+            )}
+            <Contact />
+            <Footer onAdminClick={() => setShowAdmin(true)} />
+          </>
+        )}
+      </div>
     </div>
   );
 };
